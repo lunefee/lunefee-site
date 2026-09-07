@@ -126,10 +126,12 @@ html.lenis, html.lenis body{ height:auto; }
 .section__title{
   font-family:var(--font-head);
   font-weight:400;
-  font-size:clamp(1.7rem, 4vw, 2.7rem);
+  font-size:clamp(1.5rem, 4vw, 2.7rem);
   line-height:1.4;
   letter-spacing:.005em;
   margin-bottom:2rem;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
 }
 .lead{
   font-family:var(--font-head);
@@ -442,21 +444,56 @@ html.lenis, html.lenis body{ height:auto; }
 @keyframes marquee{ to{ transform:translateX(-50%); } }
 
 /* responsive --------------------------------- */
-@media (max-width:860px){
-  .nav{ flex-wrap:wrap; gap:1rem 1.4rem; padding:1rem var(--gutter); }
-  .nav__links{ order:3; width:100%; justify-content:space-between; gap:1rem; }
-  .nav.is-scrolled{ padding:.8rem var(--gutter); }
+@media (max-width:1000px){
+  .grid__item:nth-child(even){ transform:translateY(2rem); }
 }
-@media (max-width:640px){
-  .grid{ gap:1rem; }
+
+/* tablet / large phone: nav wraps to two rows */
+@media (max-width:880px){
+  .nav{ flex-wrap:wrap; gap:.9rem 1.4rem; padding:1rem var(--gutter); }
+  .nav__brand{ margin-right:auto; }
+  .nav__links{ order:3; width:100%; justify-content:space-between; gap:1rem; }
+  .nav.is-scrolled{ padding:.75rem var(--gutter); }
+  .lang{ order:2; }
+  :root{ --section-y:clamp(4rem, 11vw, 7.5rem); }
+  .section--concept .body{ max-width:42ch; }
+}
+
+/* phone */
+@media (max-width:600px){
+  :root{ --nav-h:4.5rem; }
+
+  .grid{ grid-template-columns:repeat(2,1fr); gap:.8rem; }
   .grid__item{ aspect-ratio:3/4; }
   .grid__item:nth-child(even){ transform:none; }
   .section--lookbook .grid{ margin-bottom:0; }
-  .cards{ grid-template-columns:1fr; max-width:300px; margin-inline:auto; }
-  .nav__links{ gap:.6rem; }
-  .nav__links a:not(.nav__shop){ font-size:.6rem; letter-spacing:.12em; }
-  .nav__shop{ padding:.6em 1em; }
-  .section__title{ letter-spacing:.03em; }
+
+  .cards{ grid-template-columns:1fr; max-width:280px; margin-inline:auto; }
+  .card{ aspect-ratio:4/3; }
+
+  .nav__links{ gap:.5rem; }
+  .nav__links a:not(.nav__shop){ font-size:.58rem; letter-spacing:.1em; }
+  .nav__shop{ padding:.55em .9em; font-size:.66rem; }
+  .nav__wordmark{ font-size:1.1rem; letter-spacing:.18em; text-indent:.18em; }
+
+  .hero{ padding:6.5rem var(--gutter) 4.5rem; }
+  .hero__logo{ width:min(430px, 72vw); }
+  .hero__tagline{ font-size:clamp(1.5rem, 7vw, 2rem); }
+
+  .section--social .section__title{ letter-spacing:.03em; }
+  .marquee{ padding:1.15rem 0; }
+  .marquee__track{ gap:1.8rem; }
+  .marquee__track span{ font-size:.68rem; letter-spacing:.3em; }
+
+  .footer__links{ gap:1.2rem 1.4rem; }
+  .btn{ padding:1.05em 2.2em; letter-spacing:.24em; }
+}
+
+/* very small phone */
+@media (max-width:360px){
+  .nav__links a:not(.nav__shop){ font-size:.54rem; letter-spacing:.06em; }
+  .nav__links{ gap:.35rem; }
+  .hero__logo{ width:82vw; }
 }
 
 @media (prefers-reduced-motion:reduce){

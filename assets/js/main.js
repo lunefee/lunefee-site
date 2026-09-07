@@ -69,11 +69,11 @@
   }
 
   function initialLang() {
-    // English is the brand default; JA / KO only on explicit opt-in (remembered)
+    // Japanese is the brand default; EN / KO only on explicit opt-in (remembered)
     var saved;
     try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
     if (saved && I18N[saved]) return saved;
-    return 'en';
+    return 'ja';
   }
 
   langButtons.forEach(function (b) {
@@ -97,10 +97,10 @@
     } else {
       var dismiss = function () {
         intro.classList.add('intro--gone');
-        setTimeout(function () { if (intro && intro.parentNode) intro.remove(); }, 800);
+        setTimeout(function () { if (intro && intro.parentNode) intro.remove(); }, 1100);
       };
-      window.addEventListener('load', function () { setTimeout(dismiss, 500); });
-      setTimeout(dismiss, 3000); // safety net if 'load' never fires
+      window.addEventListener('load', function () { setTimeout(dismiss, 1600); });
+      setTimeout(dismiss, 4500); // safety net if 'load' never fires
     }
   }
 
@@ -155,11 +155,12 @@
   /* ---------- staggered reveals ----------------------------- */
   var SEL = '.section__label,.section__title,.lead,.body,.note,.btn,' +
             '.grid__item,.card,' +
-            '.hero__logo,.hero__tagline,.hero__sub,.hero .btn,' +
             '.footer__wordmark,.footer__links,.footer__copy';
 
   var groups = [];
-  document.querySelectorAll('[data-animate-group]').forEach(function (g) { groups.push(g); });
+  document.querySelectorAll('[data-animate-group]').forEach(function (g) {
+    if (g.id !== 'hero') groups.push(g);   // hero shows at rest; only below-the-fold reveals
+  });
 
   if (!reduce && 'IntersectionObserver' in window) {
     groups.forEach(function (g) {
@@ -184,8 +185,8 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var stars = [];
     var W = 0, H = 0;
-    var INK = '17,17,17';
-    var BLUE = '139,188,204';
+    var INK = '255,255,255';   /* white sparkles over the cloud hero */
+    var BLUE = '155,196,214';
 
     function resize() {
       var host = canvas.parentElement;
@@ -201,9 +202,9 @@
       for (var i = 0; i < count; i++) {
         stars.push({
           x: Math.random() * W, y: Math.random() * H,
-          r: Math.random() * 1.4 + 0.3,
-          base: Math.random() * 0.32 + 0.06,
-          amp: Math.random() * 0.34 + 0.14,
+          r: Math.random() * 1.5 + 0.35,
+          base: Math.random() * 0.32 + 0.16,
+          amp: Math.random() * 0.4 + 0.2,
           speed: Math.random() * 0.0016 + 0.0004,
           phase: Math.random() * Math.PI * 2,
           drift: (Math.random() - 0.5) * 0.06,

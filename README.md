@@ -5,9 +5,12 @@
 [Instagram](https://www.instagram.com/lunefee_official/) に集約し、このサイトは
 そこへの入口（1ページ）として機能します。
 
-**表示は英語が基準**。ナビ・見出し・ボタン・フッターなどはすべて英語固定で、
-右上の `EN / JA / KO` トグルは「説明文（数文だけ）」の言語だけを切り替えます。
-初回訪問は必ず英語表示、選んだ言語はブラウザに記憶されます。
+**ナビ・見出し・ボタン・フッターなどの UI 文字はすべて英語固定**。
+右上の `JA / EN / KO` トグルは「説明文（数文だけ）」の言語を切り替えます。
+**初回訪問は日本語表示がデフォルト**（`main.js` の `initialLang()` が `'ja'` を返す）、
+選んだ言語はブラウザに記憶されます。デフォルトを変えるならこの関数の戻り値と、
+`index.html` の `<html lang>` / `<body class>` / トグルの `is-active` /
+`data-i18n` 要素の初期テキストを合わせます。
 
 ---
 
@@ -21,7 +24,8 @@ lunefee-site/
 │   ├── css/style.css     デザイン一式（:root 変数で色・余白・モーションを管理）
 │   ├── js/main.js        言語切替 / スムーススクロール / 演出 / 星屑アニメ
 │   ├── img/logo.jpg      元ロゴ（OGP用・白背景のまま）
-│   └── img/logo.png      背景を透過に加工したロゴ（サイト表示用）
+│   ├── img/logo.png      背景を透過に加工したロゴ（ヒーローで白く表示）
+│   └── img/clouds.jpg    ヒーロー／イントロ幕の背景（雲・トリミング＆ぼかし済み）
 └── README.md
 ```
 
@@ -83,7 +87,11 @@ EC・Instagram の URL は `index.html` 内に直書き（複数箇所）。変�
 今はプレースホルダー（グレー枠＋「Coming soon」）です。
 
 - **ロゴ差し替え**: 白背景の元画像を `assets/img/logo.jpg`、背景透過版を
-  `assets/img/logo.png` として同名で上書き（表示に使うのは `logo.png`）。
+  `assets/img/logo.png` として同名で上書き（表示に使うのは `logo.png`。
+  ヒーローでは CSS の `filter` で白く反転表示している）。
+- **ヒーロー背景（雲）**: `assets/img/clouds.jpg` を差し替え。`style.css` の
+  `.hero` / `.intro` の `background-position` と `.hero::before` の白スクリム
+  （透明度）で見え方を調整。
 - **Lookbook**: `index.html` の `.grid__item` 内の `<span class="grid__ph">…</span>` を
   `<img src="assets/img/look-01.jpg" alt="">` に置き換え（`object-fit` で自動トリミング、
   ホバーで軽くズーム＋水色のかかり）。

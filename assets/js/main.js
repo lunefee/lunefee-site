@@ -134,23 +134,47 @@
   }
   onScrollNav();
 
-  /* ---------- hero parallax --------------------------------- */
+  /* ---------- hero parallax (scroll + pointer) -------------- */
+  var hero = document.getElementById('hero');
   var heroLogo = document.querySelector('.hero__logo');
   var heroDust = document.querySelector('.hero__stardust');
-  function onScrollParallax() {
-    if (reduce) return;
+  var pointerX = 0, pointerY = 0;   // -1 .. 1, eased toward target
+  var targetX = 0, targetY = 0;
+
+  function applyHeroTransforms() {
+    if (reduce || !hero) return;
     var yy = window.scrollY;
-    if (yy > window.innerHeight) return;
-    if (heroLogo) heroLogo.style.transform = 'translateY(' + (yy * 0.12).toFixed(1) + 'px)';
-    if (heroDust) heroDust.style.transform = 'translateY(' + (yy * 0.05).toFixed(1) + 'px)';
+    var onScreen = yy <= window.innerHeight;
+    var sLogo = onScreen ? yy * 0.12 : window.innerHeight * 0.12;
+    var sDust = onScreen ? yy * 0.05 : window.innerHeight * 0.05;
+    if (heroLogo) heroLogo.style.transform =
+      'translate3d(' + (pointerX * 10).toFixed(1) + 'px,' + (sLogo + pointerY * 7).toFixed(1) + 'px,0)';
+    if (heroDust) heroDust.style.transform =
+      'translate3d(' + (pointerX * -7).toFixed(1) + 'px,' + (sDust + pointerY * -5).toFixed(1) + 'px,0)';
+    hero.style.setProperty('--px', (pointerX * 18).toFixed(1));
+    hero.style.setProperty('--py', (pointerY * 12).toFixed(1));
   }
 
-  /* ---------- one rAF-throttled scroll pump ----------------- */
+  /* ---------- one rAF-throttled pump ----------------------- */
   var ticking = false;
-  function pump() { onScrollNav(); onScrollParallax(); ticking = false; }
+  function pump() { onScrollNav(); applyHeroTransforms(); ticking = false; }
   function requestPump() { if (!ticking) { requestAnimationFrame(pump); ticking = true; } }
   window.addEventListener('scroll', requestPump, { passive: true });
   if (lenis) lenis.on('scroll', requestPump);
+
+  /* pointer parallax: fine pointers only, eased follow */
+  if (!reduce && hero && window.matchMedia('(pointer:fine)').matches) {
+    window.addEventListener('mousemove', function (e) {
+      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+    (function follow() {
+      pointerX += (targetX - pointerX) * 0.06;
+      pointerY += (targetY - pointerY) * 0.06;
+      applyHeroTransforms();
+      requestAnimationFrame(follow);
+    })();
+  }
 
   /* ---------- staggered reveals ----------------------------- */
   var SEL = '.section__label,.section__title,.lead,.body,.note,.btn,' +

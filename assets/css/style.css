@@ -351,7 +351,11 @@ html.lenis, html.lenis body{ height:auto; }
   padding:var(--section-y) var(--gutter);
 }
 .section--concept{ text-align:center; }
-.section--concept .body{ margin-inline:auto; text-align:center; max-width:52ch; }
+.section--concept .body{
+  margin-inline:auto; text-align:center;
+  max-width:min(42em, 100%);
+  white-space:pre-line;          /* honour authored line breaks in the concept copy */
+}
 .section--collection, .section--social{ text-align:center; }
 
 /* full-bleed dark band */
@@ -498,7 +502,6 @@ html.lenis, html.lenis body{ height:auto; }
   .nav.is-scrolled{ padding:.75rem var(--gutter); }
   .lang{ order:2; }
   :root{ --section-y:clamp(4rem, 11vw, 7.5rem); }
-  .section--concept .body{ max-width:42ch; }
 }
 
 /* phone */

@@ -438,6 +438,16 @@ html.lenis, html.lenis body{ height:auto; }
 /* social --------------------------------------------- */
 .section--social{ border-top:1px solid var(--hairline); }
 .section--social .section__title{ font-family:var(--label); font-weight:400; letter-spacing:.14em; }
+.social-links{
+  list-style:none; margin:2.6rem 0 0; padding:0;
+  display:flex; justify-content:center; flex-wrap:wrap; gap:1.6rem 1.2rem;
+}
+.social-links li{ display:flex; flex-direction:column; align-items:center; gap:.85rem; }
+.social-links .btn{ min-width:12.5rem; text-align:center; }
+.social-links__handle{
+  font-family:var(--label);
+  font-size:.62rem; letter-spacing:.18em; color:var(--gray);
+}
 
 /* footer ------------------------------------------- */
 .footer{
@@ -526,6 +536,8 @@ html.lenis, html.lenis body{ height:auto; }
   .hero__tagline{ font-size:clamp(1.5rem, 7vw, 2rem); }
 
   .section--social .section__title{ letter-spacing:.03em; }
+  .social-links{ flex-direction:column; align-items:center; }
+  .social-links .btn{ min-width:15rem; }
   .marquee{ padding:1.15rem 0; }
   .marquee__track{ gap:1.8rem; }
   .marquee__track span{ font-size:.68rem; letter-spacing:.3em; }

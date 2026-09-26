@@ -22,21 +22,33 @@
       concept_body: 'Full or waning, the moon is always the moon.\nYour true self lives in the small choices of everyday life —\nwhat you wear, what you keep close.\nWhat we make is\na monochrome world that stays\nquietly close to that self.',
       lookbook_note: 'Visual stories are coming soon.',
       collection_body: 'Browse every item on the official online store.',
-      social_body: 'Daily fragments and new arrivals, shared on social.'
+      social_body: 'Daily fragments and new arrivals, shared on social.',
+      lune_personality: 'Quiet and reserved. Gentle at heart — can\u2019t leave anyone in trouble alone.',
+      lune_favorite: 'Sweet cakes',
+      fee_personality: 'Bright and a little airheaded. Hungry for fun and curious about everything.',
+      fee_favorite: 'Hamburgers'
     },
     ja: {
       hero_sub: '月の満ち欠けのように、どんな日の自分も自分。',
       concept_body: '満ちる夜も欠ける夜も、月はいつも月のまま。\n着るもの、そばに置くもの、暮らしの小さな選択のひとつひとつに、\nあなたらしさが宿ります。\n私たちがつくるのは、\nその「らしさ」にそっと寄り添う\nモノトーンの世界です。',
       lookbook_note: '世界観を綴るビジュアルは近日公開します。',
       collection_body: 'すべてのアイテムは公式オンラインストアでご覧いただけます。',
-      social_body: '日々の断片と入荷のお知らせは SNS で。'
+      social_body: '日々の断片と入荷のお知らせは SNS で。',
+      lune_personality: '控えめでおとなしい性格。やさしくて、困っている人を放っておけない。',
+      lune_favorite: '甘いケーキ',
+      fee_personality: '明るくて天然。楽しいことに貪欲で、何事にも好奇心旺盛。',
+      fee_favorite: 'ハンバーガー'
     },
     ko: {
       hero_sub: '달이 차고 기울듯, 어떤 날의 나도 결국 나.',
       concept_body: '차오르든 기울든 달은 언제나 달입니다.\n무엇을 입고 무엇을 곁에 두는지, 일상의 작은 선택 하나하나에\n당신다움이 깃듭니다.\n우리가 만드는 것은\n그 ‘나다움’에 조용히 곁하는\n모노톤의 세계입니다.',
       lookbook_note: '브랜드의 무드를 담은 비주얼을 곧 공개합니다.',
       collection_body: '모든 아이템은 공식 온라인 스토어에서 만나보실 수 있습니다.',
-      social_body: '일상의 조각과 입고 소식은 SNS에서.'
+      social_body: '일상의 조각과 입고 소식은 SNS에서.',
+      lune_personality: '조용하고 얌전한 성격. 다정해서 곤란한 사람을 그냥 지나치지 못한다.',
+      lune_favorite: '달콤한 케이크',
+      fee_personality: '밝고 엉뚱한 천연. 즐거운 일에 욕심이 많고 무엇이든 호기심 가득.',
+      fee_favorite: '햄버거'
     }
   };
 
@@ -178,7 +190,7 @@
 
   /* ---------- staggered reveals ----------------------------- */
   var SEL = '.section__label,.section__title,.lead,.body,.note,.btn,' +
-            '.grid__item,.card,' +
+            '.grid__item,.card,.chara,' +
             '.footer__wordmark,.footer__links,.footer__copy';
 
   var groups = [];

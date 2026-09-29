@@ -330,18 +330,22 @@ html.lenis, html.lenis body{ height:auto; }
   border-bottom:1px solid var(--hairline);
   padding:1.5rem 0;
 }
+/* spacing lives on each item (not `gap`) so the duplicated halves are exactly
+   equal and the -50% loop has no jump at the seam */
 .marquee__track{
-  display:flex; align-items:center; gap:2.8rem;
+  --mq-gap:2.8rem;
+  display:flex; align-items:center;
   width:max-content;
   animation:marquee 30s linear infinite;
 }
-.marquee:hover .marquee__track{ animation-play-state:paused; }
+@media (hover:hover){ .marquee:hover .marquee__track{ animation-play-state:paused; } }  /* avoid sticky tap-hover freezing it on phones */
 .marquee__track span{
   font-family:var(--label);
   font-size:.78rem; font-weight:400;
   letter-spacing:.42em; text-transform:uppercase;
   color:var(--gray); white-space:nowrap;
 }
+.marquee__track > *{ margin-right:var(--mq-gap); }
 .marquee__track .star{ color:var(--accent-deep); letter-spacing:0; }
 
 /* sections --------------------------------------------------- */
@@ -565,7 +569,7 @@ html.lenis, html.lenis body{ height:auto; }
   .social-links{ flex-direction:column; align-items:center; }
   .social-links .btn{ min-width:15rem; }
   .marquee{ padding:1.15rem 0; }
-  .marquee__track{ gap:1.8rem; }
+  .marquee__track{ --mq-gap:1.8rem; }
   .marquee__track span{ font-size:.68rem; letter-spacing:.3em; }
 
   .footer__links{ gap:1.2rem 1.4rem; }
@@ -584,7 +588,10 @@ html.lenis, html.lenis body{ height:auto; }
   html{ scroll-behavior:auto; }
   .anim{ opacity:1; translate:0 0; }
   .intro{ display:none; }
-  .marquee__track{ animation:none; flex-wrap:wrap; justify-content:center; width:auto; }
+  /* static: show one phrase pair instead of wrapping the whole loop into a block */
+  .marquee__track{ animation:none; width:auto; flex-direction:column; gap:.6rem; padding-inline:var(--gutter); text-align:center; }
+  .marquee__track > *{ margin-right:0; }
+  .marquee__track > :nth-child(2), .marquee__track > :nth-child(n+4){ display:none; }
   .hero__logo,.hero__stardust{ transform:none !important; }
   .hero::before{ animation:none; transform:scale(1.06); }
   .hero__logo,.hero__tagline,.hero__sub,.hero .btn,.hero__scroll{

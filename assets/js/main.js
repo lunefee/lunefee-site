@@ -99,7 +99,7 @@
 
   /* ---------- marquee: duplicate track for a seamless -50% loop -- */
   var mqTrack = document.querySelector('.marquee__track');
-  if (mqTrack) mqTrack.innerHTML = mqTrack.innerHTML + mqTrack.innerHTML;
+  if (mqTrack && !reduce) mqTrack.innerHTML = mqTrack.innerHTML + mqTrack.innerHTML;
 
   /* ---------- intro veil -------------------------------------- */
   var intro = document.getElementById('intro');

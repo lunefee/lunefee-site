@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Inter:wght@400&family=Noto+Sans+KR:wght@400&family=Zen+Kaku+Gothic+New:wght@400&display=swap" rel="stylesheet" />
 <link rel="preload" href="assets/img/clouds.webp" as="image" type="image/webp" />
-<link rel="stylesheet" href="assets/css/style.css?v=16" />
+<link rel="stylesheet" href="assets/css/style.css?v=17" />
 </head>
 <body class="lang-ja">
 
@@ -100,23 +100,6 @@
 
   <section class="hero" id="hero" data-animate-group>
     <canvas class="hero__stardust" id="stardust" aria-hidden="true"></canvas>
-    <div class="moon" id="moon" hidden>
-      <svg class="moon__disc" viewBox="-50 -50 100 100" aria-hidden="true">
-        <defs>
-          <radialGradient id="moonLit" cx="-12" cy="-14" r="70" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#ffffff"/>
-            <stop offset=".7" stop-color="#f1f3f6"/>
-            <stop offset="1" stop-color="#dfe4ea"/>
-          </radialGradient>
-        </defs>
-        <circle class="moon__shadow" r="46"/>
-        <path class="moon__lit" id="moonLitPath" fill="url(#moonLit)" d=""/>
-      </svg>
-      <p class="moon__label">
-        <span class="moon__kicker">Tonight&rsquo;s moon</span>
-        <span class="moon__name" id="moonName"></span>
-      </p>
-    </div>
     <div class="hero__inner">
       <img class="hero__logo" src="assets/img/logo.webp" width="878" height="856" alt="Lunefee" fetchpriority="high" decoding="async" />
       <h1 class="hero__tagline">Wear who you are.</h1>
@@ -242,6 +225,25 @@
 
 </main>
 
+<!-- today's moon: fixed to the bottom-right of the viewport -->
+<div class="moon" id="moon" hidden>
+  <svg class="moon__disc" viewBox="-50 -50 100 100" aria-hidden="true">
+    <defs>
+      <radialGradient id="moonLit" cx="-12" cy="-14" r="70" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".7" stop-color="#f1f3f6"/>
+        <stop offset="1" stop-color="#dfe4ea"/>
+      </radialGradient>
+    </defs>
+    <circle class="moon__shadow" r="46"/>
+    <path class="moon__lit" id="moonLitPath" fill="url(#moonLit)" d=""/>
+  </svg>
+  <p class="moon__label">
+    <span class="moon__kicker">Tonight&rsquo;s moon</span>
+    <span class="moon__name" id="moonName"></span>
+  </p>
+</div>
+
 <footer class="footer" data-animate-group>
   <p class="footer__wordmark">Lunefee</p>
   <nav class="footer__links" aria-label="Footer">
@@ -255,6 +257,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="assets/js/main.js?v=16"></script>
+<script src="assets/js/main.js?v=17"></script>
 </body>
 </html>

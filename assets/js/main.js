@@ -182,7 +182,16 @@
     var fig = btn.parentNode;
     var bubble = fig.querySelector('.chara__bubble');
     var idx = 0, hideT;
-    btn.addEventListener('click', function () {
+    // the 3D figure is dragged to spin: only a tap (no real movement) should make it talk
+    var downX = 0, downY = 0, moved = false;
+    btn.addEventListener('pointerdown', function (e) { downX = e.clientX; downY = e.clientY; moved = false; });
+    btn.addEventListener('pointermove', function (e) {
+      if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) > 6) moved = true;
+    });
+    var extra = fig.querySelector('[data-talk]');
+    if (extra) extra.addEventListener('click', function () { moved = false; talk(); });
+    btn.addEventListener('click', function () { if (!moved) talk(); });
+    function talk() {
       var list = (LINES[who] || {})[currentLang] || [];
       if (!list.length || !bubble) return;
       bubble.textContent = list[idx % list.length];
@@ -206,8 +215,35 @@
         fig.appendChild(sp);
         setTimeout(function (n) { n.remove(); }, 950, sp);
       }
-    });
+    }
   });
+
+  /* ---------- 3D characters: load model-viewer only when the section comes near ---------- */
+  var models = document.querySelectorAll('model-viewer[data-src]');
+  if (models.length) {
+    var loadModels = function () {
+      if (!window.customElements || customElements.get('model-viewer')) return;
+      var sc = document.createElement('script');
+      sc.type = 'module';
+      sc.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js';
+      document.head.appendChild(sc);
+      // set src only once the element is upgraded — an attribute set before that can be missed
+      customElements.whenDefined('model-viewer').then(function () {
+        models.forEach(function (m) {
+          if (reduce) m.removeAttribute('auto-rotate');
+          m.setAttribute('src', m.getAttribute('data-src'));
+        });
+      });
+    };
+    if ('IntersectionObserver' in window) {
+      var mio = new IntersectionObserver(function (es) {
+        if (es.some(function (e) { return e.isIntersecting; })) { loadModels(); mio.disconnect(); }
+      }, { rootMargin: '700px 0px' });
+      models.forEach(function (m) { mio.observe(m); });
+    } else {
+      loadModels();
+    }
+  }
 
   /* ---------- marquee: duplicate track for a seamless -50% loop -- */
   var mqTrack = document.querySelector('.marquee__track');

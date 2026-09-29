@@ -630,6 +630,20 @@ html.lenis, html.lenis body{ height:auto; }
 }
 .chara:hover .chara__fig img{ transform:translateY(-6px); }
 .chara__talk.is-hop{ animation:charaHop .62s var(--ease); }
+/* 3D figure (model-viewer): same visual height as the drawings next to it */
+.chara__fig--3d{ display:flex; flex-direction:column; align-items:center; }
+/* keep both figures the same height so the names and profiles line up */
+.charas .chara__fig{ min-height:calc(clamp(260px, 30vw, 360px) + 2.6rem); display:flex; flex-direction:column; justify-content:center; }
+.chara__model{
+  display:block; width:100%; height:clamp(260px, 30vw, 360px);
+  background:transparent; --poster-color:transparent; --progress-bar-color:var(--accent-deep);
+  cursor:grab; outline:none;
+}
+.chara__model:active{ cursor:grabbing; }
+.chara__model:not(:defined){ background:url("../img/fee_3d_poster.webp") center/contain no-repeat; }   /* before the 3D script arrives */
+.chara__model:focus-visible{ outline:2px solid var(--accent-deep); outline-offset:4px; border-radius:1.5rem; }
+.chara__hint--btn{ cursor:pointer; padding:.3em .6em; border-radius:999px; transition:color .3s var(--ease); }
+.chara__hint--btn:hover{ color:var(--gray); }
 .chara__talk[data-chara="lune"].is-hop{ animation:charaShy .8s var(--ease); }
 
 @keyframes charaFloat{

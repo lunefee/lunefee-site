@@ -52,6 +52,21 @@
     }
   };
 
+  /* what Lune & Fee say when tapped (cycled in order, per language) */
+  var LINES = {
+    lune: {
+      ja: ['……ケーキ、半分こする？', 'だいじょうぶ？ なにか手伝おうか', '今日もおつかれさま', '……（そっと手をふる）'],
+      en: ['…Want to share a slice of cake?', 'Are you okay? Can I help?', 'You did great today.', '…(waves quietly)'],
+      ko: ['……케이크, 반씩 나눠 먹을래?', '괜찮아? 뭐 도와줄까?', '오늘도 수고했어.', '……(살짝 손을 흔든다)']
+    },
+    fee: {
+      ja: ['ハンバーガー食べに行こ！', 'ねえねえ、あれなに！？', 'たのしいこと、はじまる予感！', 'きょうは何して遊ぶ？'],
+      en: ['Let\u2019s go get burgers!', 'Hey hey, what\u2019s that?!', 'I can feel something fun coming!', 'What should we play today?'],
+      ko: ['햄버거 먹으러 가자!', '저기 저거 뭐야!?', '재밌는 일이 생길 것 같아!', '오늘은 뭐 하고 놀까?']
+    }
+  };
+  var currentLang = 'ja';
+
   var HTML_LANG = { en: 'en', ja: 'ja', ko: 'ko' };
   var STORE_KEY = 'lunefee.lang';
   var body = document.body;
@@ -61,6 +76,7 @@
   function applyLang(lang) {
     if (!I18N[lang]) lang = 'en';
     var dict = I18N[lang];
+    currentLang = lang;
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
@@ -96,6 +112,61 @@
   /* ---------- year ---------------------------------------------- */
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
+
+  /* ---------- day / night theme ------------------------------ */
+  var THEME_KEY = 'lunefee.theme';
+  var themeBtn = document.getElementById('themeToggle');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function syncTheme() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    if (themeBtn) {
+      themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to day mode' : 'Switch to night mode');
+    }
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#0c0d11' : '#fafafa');
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+      syncTheme();
+    });
+  }
+  syncTheme();
+
+  /* ---------- Lune & Fee: tap to talk ------------------------- */
+  document.querySelectorAll('.chara__talk').forEach(function (btn) {
+    var who = btn.getAttribute('data-chara');
+    var fig = btn.parentNode;
+    var bubble = fig.querySelector('.chara__bubble');
+    var idx = 0, hideT;
+    btn.addEventListener('click', function () {
+      var list = (LINES[who] || {})[currentLang] || [];
+      if (!list.length || !bubble) return;
+      bubble.textContent = list[idx % list.length];
+      idx++;
+      bubble.classList.add('is-on');
+      clearTimeout(hideT);
+      hideT = setTimeout(function () { bubble.classList.remove('is-on'); }, 2800);
+
+      if (reduce) return;
+      btn.classList.remove('is-hop'); void btn.offsetWidth; btn.classList.add('is-hop');
+      for (var i = 0; i < 7; i++) {
+        var sp = document.createElement('span');
+        sp.className = 'chara__spark';
+        sp.textContent = '\u2726';
+        var ang = Math.random() * Math.PI * 2, dist = 40 + Math.random() * 60;
+        sp.style.setProperty('--sx', (30 + Math.random() * 40) + '%');
+        sp.style.setProperty('--sy', (35 + Math.random() * 30) + '%');
+        sp.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+        sp.style.setProperty('--dy', Math.sin(ang) * dist - 20 + 'px');
+        sp.style.setProperty('--ss', (9 + Math.random() * 9) + 'px');
+        fig.appendChild(sp);
+        setTimeout(function (n) { n.remove(); }, 950, sp);
+      }
+    });
+  });
 
   /* ---------- marquee: duplicate track for a seamless -50% loop -- */
   var mqTrack = document.querySelector('.marquee__track');

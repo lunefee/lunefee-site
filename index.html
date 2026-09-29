@@ -9,17 +9,40 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Lunefee — 自分らしさを、纏う。" />
 <meta property="og:description" content="「月の妖精」を意味するモノトーンの日用品ブランド。自分らしさにそっと寄り添うアイテムを。" />
-<meta property="og:image" content="assets/img/logo.jpg" />
+<meta property="og:url" content="https://lunefee.github.io/lunefee-site/" />
+<meta property="og:site_name" content="Lunefee" />
+<meta property="og:image" content="https://lunefee.github.io/lunefee-site/assets/img/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Lunefee logo in the clouds with the brand characters Lune and Fee" />
 <meta property="og:locale" content="ja_JP" />
 <meta property="og:locale:alternate" content="en_US" />
 <meta property="og:locale:alternate" content="ko_KR" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lunefee.github.io/lunefee-site/assets/img/og.jpg" />
+<link rel="canonical" href="https://lunefee.github.io/lunefee-site/" />
+<meta name="theme-color" content="#fafafa" />
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+<script>
+  /* theme before first paint: saved choice → else night if the OS is dark or it's
+     night locally (19:00–5:59) → else day. Kept inline so there's no light flash. */
+  (function () {
+    var t;
+    try { t = localStorage.getItem('lunefee.theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      var h = new Date().getHours();
+      var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      t = (osDark || h >= 19 || h < 6) ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=14" />
+<link rel="stylesheet" href="assets/css/style.css?v=15" />
 </head>
 <body class="lang-ja">
 
@@ -45,6 +68,10 @@
     <span aria-hidden="true">/</span>
     <button type="button" data-lang="ko">KO</button>
   </div>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to night mode" aria-pressed="false">
+    <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+    <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </button>
 </header>
 
 <main id="main">
@@ -100,7 +127,11 @@
     <div class="charas">
       <article class="chara">
         <figure class="chara__fig">
+          <button type="button" class="chara__talk" data-chara="lune" aria-label="Talk to Lune">
           <img src="assets/img/lune.png" width="1000" height="423" loading="lazy" alt="Lune — a small black moon fairy with cat ears and bat wings, shown from the front, back and side" />
+          </button>
+          <p class="chara__bubble" role="status" aria-live="polite"></p>
+          <span class="chara__hint" aria-hidden="true">Tap to talk</span>
         </figure>
         <h3 class="chara__name">Lune</h3>
         <dl class="chara__profile">
@@ -112,7 +143,11 @@
       </article>
       <article class="chara">
         <figure class="chara__fig">
+          <button type="button" class="chara__talk" data-chara="fee" aria-label="Talk to Fee">
           <img src="assets/img/fee.png" width="1000" height="423" loading="lazy" alt="Fee — a small white moon fairy with cat ears and pale blue wings, shown from the front, back and side" />
+          </button>
+          <p class="chara__bubble" role="status" aria-live="polite"></p>
+          <span class="chara__hint" aria-hidden="true">Tap to talk</span>
         </figure>
         <h3 class="chara__name">Fee</h3>
         <dl class="chara__profile">
@@ -181,6 +216,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="assets/js/main.js?v=14"></script>
+<script src="assets/js/main.js?v=15"></script>
 </body>
 </html>

@@ -67,6 +67,46 @@
   };
   var currentLang = 'ja';
 
+  /* ---------- today's moon ------------------------------------ */
+  var MOON_NAMES = {
+    ja: ['新月', '三日月', '上弦の月', '十三夜月', '満月', '寝待月', '下弦の月', '有明月'],
+    en: ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'],
+    ko: ['삭', '초승달', '상현달', '차오르는 달', '보름달', '기우는 달', '하현달', '그믐달']
+  };
+  var MOON_AGE = { ja: '月齢 ', en: 'Moon age ', ko: '월령 ' };
+  var SYNODIC = 29.530588853;
+  var NEW_MOON_REF = Date.UTC(2000, 0, 6, 18, 14);   // a known new moon
+
+  function moonAge(date) {
+    var days = (date.getTime() - NEW_MOON_REF) / 86400000;
+    return ((days % SYNODIC) + SYNODIC) % SYNODIC;
+  }
+  // lit-part outline for a disc of radius r; northern-hemisphere view
+  // (waxing lit on the right, waning on the left)
+  function moonPath(age, r) {
+    var p = age / SYNODIC;
+    var rx = Math.abs(Math.cos(2 * Math.PI * p)) * r;
+    var waxing = p < 0.5;
+    var crescent = p < 0.25 || p > 0.75;
+    var limbSweep = waxing ? 1 : 0;
+    var termSweep = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
+    return 'M0,' + (-r) +
+      ' A' + r + ',' + r + ' 0 0 ' + limbSweep + ' 0,' + r +
+      ' A' + rx.toFixed(2) + ',' + r + ' 0 0 ' + termSweep + ' 0,' + (-r) + 'Z';
+  }
+  function renderMoon(lang) {
+    var box = document.getElementById('moon');
+    if (!box) return;
+    var age = moonAge(new Date());
+    var idx = Math.floor(((age / SYNODIC) * 8 + 0.5)) % 8;
+    var path = document.getElementById('moonLitPath');
+    if (path) path.setAttribute('d', age < 0.4 || age > SYNODIC - 0.4 ? '' : moonPath(age, 46));
+    var name = document.getElementById('moonName');
+    if (name) name.textContent = (MOON_NAMES[lang] || MOON_NAMES.en)[idx] + '  ·  ' +
+      (MOON_AGE[lang] || MOON_AGE.en) + age.toFixed(1);
+    box.hidden = false;
+  }
+
   var HTML_LANG = { en: 'en', ja: 'ja', ko: 'ko' };
   var STORE_KEY = 'lunefee.lang';
   var body = document.body;
@@ -77,6 +117,7 @@
     if (!I18N[lang]) lang = 'en';
     var dict = I18N[lang];
     currentLang = lang;
+    renderMoon(lang);
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
@@ -211,11 +252,52 @@
   function onScrollNav() {
     var yy = window.scrollY;
     nav.classList.toggle('is-scrolled', yy > 40);
+    if (body.classList.contains('menu-open')) { lastY = yy; return; }
     if (yy > 240 && yy > lastY + 4) nav.classList.add('nav--hidden');
     else if (yy < lastY - 4 || yy <= 240) nav.classList.remove('nav--hidden');
     lastY = yy;
   }
   onScrollNav();
+
+  /* ---------- mobile menu ------------------------------------- */
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  var menuOpen = false, menuT;
+  function setMenu(open) {
+    if (!burger || !menu || open === menuOpen) return;
+    menuOpen = open;
+    clearTimeout(menuT);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    body.classList.toggle('menu-open', open);
+    if (open) {
+      menu.hidden = false;
+      nav.classList.remove('nav--hidden');
+      if (lenis) lenis.stop();
+      requestAnimationFrame(function () {
+        menu.classList.add('is-open');
+        var first = menu.querySelector('a');
+        if (first) first.focus({ preventScroll: true });
+      });
+    } else {
+      menu.classList.remove('is-open');
+      if (lenis) lenis.start();
+      menuT = setTimeout(function () { menu.hidden = true; }, 500);
+    }
+  }
+  if (burger && menu) {
+    burger.addEventListener('click', function () { setMenu(!menuOpen); });
+    // capture phase: close (and restart Lenis) before the anchor's smooth-scroll handler runs
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
+    }, true);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menuOpen) { setMenu(false); burger.focus(); }
+    });
+    window.matchMedia('(min-width:881px)').addEventListener('change', function (m) {
+      if (m.matches) setMenu(false);
+    });
+  }
 
   /* ---------- hero parallax (scroll + pointer) -------------- */
   var hero = document.getElementById('hero');

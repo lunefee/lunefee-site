@@ -621,7 +621,7 @@ html.lenis, html.lenis body{ height:auto; }
 }
 .chara__talk:focus-visible{ outline:2px solid var(--accent-deep); outline-offset:6px; }
 .chara__fig img{
-  display:block; width:100%; height:auto;
+  display:block; width:78%; height:auto; margin-inline:auto;      /* a little smaller than the column */
   transition:transform .8s var(--ease);
   animation:charaFloat 5.6s ease-in-out infinite;     /* Lune: slow, quiet drift */
 }
@@ -633,9 +633,9 @@ html.lenis, html.lenis body{ height:auto; }
 /* 3D figure (model-viewer): same visual height as the drawings next to it */
 .chara__fig--3d{ display:flex; flex-direction:column; align-items:center; }
 /* keep both figures the same height so the names and profiles line up */
-.charas .chara__fig{ min-height:calc(clamp(260px, 30vw, 360px) + 2.6rem); display:flex; flex-direction:column; justify-content:center; }
+.charas .chara__fig{ min-height:calc(clamp(210px, 24vw, 290px) + 2.6rem); display:flex; flex-direction:column; justify-content:center; }
 .chara__model{
-  display:block; width:100%; height:clamp(260px, 30vw, 360px);
+  display:block; width:100%; height:clamp(210px, 24vw, 290px);
   background:transparent; --poster-color:transparent; --progress-bar-color:var(--accent-deep);
   cursor:grab; outline:none;
 }

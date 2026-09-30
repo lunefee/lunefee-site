@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Inter:wght@400&family=Noto+Sans+KR:wght@400&family=Zen+Kaku+Gothic+New:wght@400&display=swap" rel="stylesheet" />
 <link rel="preload" href="assets/img/clouds.webp" as="image" type="image/webp" />
-<link rel="stylesheet" href="assets/css/style.css?v=29" />
+<link rel="stylesheet" href="assets/css/style.css?v=30" />
 </head>
 <body class="lang-ja">
 
@@ -251,12 +251,12 @@
 </main>
 
 <dialog class="lightbox" id="lightbox" aria-label="Lookbook image">
-  <button type="button" class="lightbox__close" aria-label="Close">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
-  </button>
   <figure class="lightbox__fig">
     <img class="lightbox__img" alt="" />
-    <figcaption class="lightbox__cap"></figcaption>
+    <button type="button" class="lightbox__close glass" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <figcaption class="lightbox__cap glass"></figcaption>
   </figure>
 </dialog>
 
@@ -292,6 +292,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="assets/js/main.js?v=26"></script>
+<script src="assets/js/main.js?v=27"></script>
 </body>
 </html>

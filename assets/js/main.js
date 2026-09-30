@@ -345,8 +345,8 @@
         if (lenis) lenis.stop();
       });
       box.addEventListener('click', function (e) {
-        // close on backdrop / empty space / the × — anything but the image itself
-        if (e.target !== boxImg) box.close();
+        // close on the dark backdrop or the glass ×; taps on the image / caption keep it open
+        if (e.target === box || e.target.closest('.lightbox__close')) box.close();
       });
       box.addEventListener('close', function () {
         document.documentElement.style.overflow = '';

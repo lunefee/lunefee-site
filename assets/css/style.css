@@ -640,7 +640,9 @@ html.lenis, html.lenis body{ height:auto; }
   cursor:grab; outline:none;
 }
 .chara__model:active{ cursor:grabbing; }
-.chara__model:not(:defined){ background:url("../img/fee_3d_poster.webp") center/contain no-repeat; }   /* before the 3D script arrives */
+.chara__model:not(:defined){ background:center/contain no-repeat; }
+.chara__model[data-chara="fee"]:not(:defined){ background-image:url("../img/fee_3d_poster.webp"); }
+.chara__model[data-chara="lune"]:not(:defined){ background-image:url("../img/lune_3d_poster.webp"); }   /* before the 3D script arrives */
 .chara__model:focus-visible{ outline:2px solid var(--accent-deep); outline-offset:4px; border-radius:1.5rem; }
 .chara__hint--btn{ cursor:pointer; padding:.3em .6em; border-radius:999px; transition:color .3s var(--ease); }
 .chara__hint--btn:hover{ color:var(--gray); }

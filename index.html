@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Inter:wght@400&family=Noto+Sans+KR:wght@400&family=Zen+Kaku+Gothic+New:wght@400&display=swap" rel="stylesheet" />
 <link rel="preload" href="assets/img/clouds.webp" as="image" type="image/webp" />
-<link rel="stylesheet" href="assets/css/style.css?v=23" />
+<link rel="stylesheet" href="assets/css/style.css?v=24" />
 </head>
 <body class="lang-ja">
 
@@ -149,14 +149,13 @@
     <div class="charas">
       <article class="chara">
         <figure class="chara__fig chara__fig--3d">
-          <model-viewer class="chara__model chara__talk" data-chara="lune" data-src="assets/models/lune.glb" poster="assets/img/lune_3d_poster.webp"
+          <model-viewer class="chara__model" data-chara="lune" data-src="assets/models/lune.glb" poster="assets/img/lune_3d_poster.webp"
             alt="Lune — a small dark-grey moon fairy with cat ears, sleepy eyes and bat wings, in 3D"
             camera-controls disable-zoom disable-pan touch-action="pan-y" interaction-prompt="none"
             auto-rotate auto-rotate-delay="0" rotation-per-second="-12deg"
-            camera-orbit="0deg 78deg auto" field-of-view="26deg"
+            camera-orbit="0deg 76deg 128%" max-camera-orbit="auto auto 300%" field-of-view="30deg"
             shadow-intensity="0.7" shadow-softness="1" exposure="1.15" environment-image="neutral"></model-viewer>
-          <p class="chara__bubble" role="status" aria-live="polite"></p>
-          <button type="button" class="chara__hint chara__hint--btn" data-talk="lune">Drag to spin · Tap to talk</button>
+          <span class="chara__hint" aria-hidden="true">Drag to spin</span>
         </figure>
         <h3 class="chara__name">Lune</h3>
         <dl class="chara__profile">
@@ -169,14 +168,13 @@
       <article class="chara">
         <figure class="chara__fig chara__fig--3d">
           <!-- 3D: model-viewer is loaded on demand (main.js) when this section comes near -->
-          <model-viewer class="chara__model chara__talk" data-chara="fee" data-src="assets/models/fee.glb" poster="assets/img/fee_3d_poster.webp"
+          <model-viewer class="chara__model" data-chara="fee" data-src="assets/models/fee.glb" poster="assets/img/fee_3d_poster.webp"
             alt="Fee — a small white moon fairy with cat ears, star eyes and pale blue wings, in 3D"
             camera-controls disable-zoom disable-pan touch-action="pan-y" interaction-prompt="none"
             auto-rotate auto-rotate-delay="0" rotation-per-second="16deg"
-            camera-orbit="0deg 78deg auto" field-of-view="26deg"
+            camera-orbit="0deg 76deg 128%" max-camera-orbit="auto auto 300%" field-of-view="30deg"
             shadow-intensity="0.7" shadow-softness="1" exposure="1.05" environment-image="neutral"></model-viewer>
-          <p class="chara__bubble" role="status" aria-live="polite"></p>
-          <button type="button" class="chara__hint chara__hint--btn" data-talk="fee">Drag to spin · Tap to talk</button>
+          <span class="chara__hint" aria-hidden="true">Drag to spin</span>
         </figure>
         <h3 class="chara__name">Fee</h3>
         <dl class="chara__profile">
@@ -264,6 +262,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="assets/js/main.js?v=23"></script>
+<script src="assets/js/main.js?v=24"></script>
 </body>
 </html>

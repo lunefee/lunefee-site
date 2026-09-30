@@ -614,7 +614,7 @@ html.lenis, html.lenis body{ height:auto; }
   gap:clamp(2.5rem, 6vw, 5rem);
   margin-top:clamp(1.5rem, 4vw, 3rem);
 }
-.chara__fig{ position:relative; margin:0 0 1.8rem; }
+.chara__fig{ position:relative; margin:0 0 2.8rem; }
 .chara__talk{
   display:block; width:100%; position:relative;
   border-radius:1.5rem; -webkit-tap-highlight-color:transparent;
@@ -633,9 +633,9 @@ html.lenis, html.lenis body{ height:auto; }
 /* 3D figure (model-viewer): same visual height as the drawings next to it */
 .chara__fig--3d{ display:flex; flex-direction:column; align-items:center; }
 /* keep both figures the same height so the names and profiles line up */
-.charas .chara__fig{ min-height:calc(clamp(210px, 24vw, 290px) + 2.6rem); display:flex; flex-direction:column; justify-content:center; }
+.charas .chara__fig{ min-height:calc(clamp(220px, 23vw, 280px) + 2.6rem); display:flex; flex-direction:column; justify-content:center; }
 .chara__model{
-  display:block; width:100%; height:clamp(210px, 24vw, 290px);
+  display:block; width:100%; height:clamp(220px, 23vw, 280px);   /* wide fov → figure sits small with room for its shadow */
   background:transparent; --poster-color:transparent; --progress-bar-color:var(--accent-deep);
   cursor:grab; outline:none;
 }

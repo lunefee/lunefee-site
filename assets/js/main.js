@@ -298,9 +298,69 @@
     hero.style.setProperty('--py', (pointerY * 12).toFixed(1));
   }
 
+  /* ---------- lookbook: wipe reveal + in-frame drift + lightbox ---- */
+  var lb = document.querySelector('.lb');
+  var lbDrift = lb && !reduce ? Array.prototype.slice.call(lb.querySelectorAll('.lb__px')) : [];
+
+  function applyLookbookDrift() {
+    if (!lbDrift.length) return;
+    var vh = window.innerHeight;
+    lbDrift.forEach(function (img) {
+      var r = img.parentNode.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var p = (r.top + r.height / 2 - vh / 2) / vh;       // ~ -1 .. 1 across the viewport
+      p = Math.max(-1, Math.min(1, p));
+      img.style.setProperty('--shift', (p * 6).toFixed(2) + '%');
+    });
+  }
+
+  if (lb) {
+    if (!reduce && 'IntersectionObserver' in window) {
+      lb.classList.add('lb--motion');
+      var lbIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); lbIo.unobserve(en.target); }
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+      lb.querySelectorAll('.lb__item').forEach(function (it) { lbIo.observe(it); });
+      applyLookbookDrift();
+    }
+
+    var box = document.getElementById('lightbox');
+    if (box && typeof box.showModal === 'function') {
+      var boxImg = box.querySelector('.lightbox__img');
+      var boxCap = box.querySelector('.lightbox__cap');
+      var opener = null;
+      lb.addEventListener('click', function (e) {
+        var btn = e.target.closest('.lb__frame');
+        if (!btn) return;
+        var img = btn.querySelector('img');
+        var cap = btn.parentNode.querySelector('figcaption');
+        opener = btn;
+        boxImg.src = img.currentSrc || img.src;
+        boxImg.alt = img.alt;
+        boxCap.textContent = cap ? cap.textContent.replace(/^(\d+)/, '$1 — ') : '';
+        box.showModal();
+        document.documentElement.style.overflow = 'hidden';
+        if (lenis) lenis.stop();
+      });
+      box.addEventListener('click', function (e) {
+        // close on backdrop / empty space / the × — anything but the image itself
+        if (e.target !== boxImg) box.close();
+      });
+      box.addEventListener('close', function () {
+        document.documentElement.style.overflow = '';
+        if (lenis) lenis.start();
+        if (opener) opener.focus({ preventScroll: true });
+      });
+    } else {
+      lb.querySelectorAll('.lb__frame').forEach(function (b) { b.style.cursor = 'default'; });
+    }
+  }
+
   /* ---------- one rAF-throttled pump ----------------------- */
   var ticking = false;
-  function pump() { onScrollNav(); applyHeroTransforms(); ticking = false; }
+  function pump() { onScrollNav(); applyHeroTransforms(); applyLookbookDrift(); ticking = false; }
   function requestPump() { if (!ticking) { requestAnimationFrame(pump); ticking = true; } }
   window.addEventListener('scroll', requestPump, { passive: true });
   if (lenis) lenis.on('scroll', requestPump);
@@ -321,7 +381,7 @@
 
   /* ---------- staggered reveals ----------------------------- */
   var SEL = '.section__label,.section__title,.lead,.body,.note,.btn,' +
-            '.grid__item,.card,.chara,' +
+            '.card,.chara,' +
             '.footer__wordmark,.footer__links,.footer__copy';
 
   var groups = [];

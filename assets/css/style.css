@@ -550,6 +550,7 @@ html.lenis, html.lenis body{ height:auto; }
   gap:clamp(.9rem, 2.4vw, 2rem);
   margin-top:1rem;
 }
+.section--lookbook .grid{ max-width:680px; margin-inline:auto; }
 .grid__item{
   position:relative;
   aspect-ratio:4/5;
